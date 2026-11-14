@@ -43,6 +43,7 @@ const requirePerms = [
 	'/setting/deleteBackground',
 	'/setting/set',
 	'/setting/query',
+	'/setting/setBlacklist',
 	'/user/delete',
 	'/user/setPwd',
 	'/user/setStatus',
@@ -115,7 +116,7 @@ app.use('*', async (c, next) => {
 
 	const result = await jwtUtils.verifyToken(c, jwt);
 
-	if (!result) {
+	if (!result || result.gen !== constant.AUTH_GEN) {
 		throw new BizError(t('authExpired'), 401);
 	}
 
